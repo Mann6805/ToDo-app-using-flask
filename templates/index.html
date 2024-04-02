@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDo List</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>ToDo List</h1>
+  <form action="{{ url_for('home') }}" class="input-container" method="POST">
+    <input type="text" placeholder="Enter Todo" id="todos" name="todo">
+    <button id="add-todo">Add</button>
+  </form>
+  <h2>ToDos</h2>
+  <div class="todo-container">
+    {% for items in task %}
+      <div class="todo">
+        <p>{{ items.task }}</p>
+        <div class="actions">
+          <form action="{{ url_for('checked', todo_id=items.id) }}" method="POST">
+            <input type="checkbox" {% if items.checked %}checked{% endif %} onchange="this.form.submit">
+          </form>
+          <form action="{{ url_for('delete', todo_id=items.id) }}" method="POST">
+            <button>Delete</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
